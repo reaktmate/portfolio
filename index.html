@@ -3,546 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yunose</title>
+<title>ゆーすけ — Profile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 <style>
   :root{
-    --paper: #f3f6ee;
-    --paper-warm: #eef2e6;
-    --ink: #16241c;
-    --ink-soft: #3b4a3f;
-    --forest: #2f5233;
-    --moss: #6b9071;
-    --leaf: #a9c46c;
-    --card: #ffffff;
-    --line: rgba(47,82,51,0.14);
-    --radius: 14px;
+    --bg:#F5F8F4;
+    --surface:#FFFFFF;
+    --ink:#20281F;
+    --ink-soft:#5D6B58;
+    --green:#2F6B44;
+    --green-dark:#1F4B30;
+    --green-light:#E6F0E3;
+    --line:#DCE6D8;
+    --status-done:#2F6B44;
+    --status-wip:#B5892A;
+    --status-plan:#7C8578;
   }
-
-  *{ margin:0; padding:0; box-sizing:border-box; }
-
-  html{ scroll-behavior:smooth; }
-
+  *{ box-sizing:border-box; }
   body{
-    background:var(--paper);
+    margin:0;
+    background:var(--bg);
     color:var(--ink);
     font-family:'Noto Sans JP', sans-serif;
-    font-weight:400;
     line-height:1.75;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
   }
+  .wrap{ max-width:920px; margin:0 auto; padding:48px 24px 80px; }
 
-  ::selection{ background:var(--leaf); color:var(--forest); }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
 
-  a{ color:inherit; text-decoration:none; }
-
-  .eyebrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.72rem;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--moss);
-  }
-
-  h1,h2,h3{
-    font-family:'Space Grotesk', sans-serif;
-    color:var(--forest);
-    letter-spacing:-0.01em;
-  }
-
-  .wrap{
-    max-width:900px;
-    margin:0 auto;
-    padding:0 28px;
-  }
-
-  /* ---------- HEADER ---------- */
-  header{
-    position:sticky;
-    top:0;
-    z-index:50;
-    backdrop-filter:blur(10px);
-    background:rgba(243,246,238,0.82);
-    border-bottom:1px solid var(--line);
-  }
-  .nav{
-    max-width:900px;
-    margin:0 auto;
-    padding:16px 28px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .brand{
-    font-family:'JetBrains Mono', monospace;
-    font-weight:500;
-    font-size:0.95rem;
-    color:var(--forest);
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .brand .dot{
-    width:8px;height:8px;border-radius:50%;
-    background:var(--leaf);
-    box-shadow:0 0 0 3px rgba(169,196,108,0.25);
-  }
-  .navlinks{
-    display:flex;
-    gap:28px;
-    font-size:0.86rem;
-    color:var(--ink-soft);
-  }
-  .navlinks a{
-    position:relative;
-    padding:2px 0;
-    transition:color .2s;
-  }
-  .navlinks a:hover{ color:var(--forest); }
-  .navlinks a::after{
-    content:'';
-    position:absolute; left:0; bottom:-3px;
-    width:0; height:1.5px;
-    background:var(--leaf);
-    transition:width .25s ease;
-  }
-  .navlinks a:hover::after{ width:100%; }
-
-  @media(max-width:640px){
-    .navlinks{ display:none; }
-  }
-
-  /* ---------- HERO / PROFILE CARD ---------- */
-  .hero{
-    padding:96px 0 72px;
-    position:relative;
-  }
-  .hero .eyebrow{ margin-bottom:18px; display:block; }
-
+  /* ---------- profile card (wide) ---------- */
   .profile-card{
-    display:flex;
-    gap:26px;
-    align-items:flex-start;
-    background:var(--card);
+    background:var(--surface);
     border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:30px 32px;
-    box-shadow:0 1px 0 var(--line);
-    opacity:0;
-    transform:translateY(10px);
-    animation:rise .6s ease forwards;
-    animation-delay:.15s;
-  }
-
-  .avatar{
-    flex:none;
-    width:76px; height:76px;
-    border-radius:20px;
-    background:linear-gradient(155deg, var(--forest), var(--leaf));
-    display:flex;
+    border-radius:12px;
+    padding:32px 36px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:28px;
     align-items:center;
-    justify-content:center;
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:1.9rem;
-    color:var(--paper);
-    position:relative;
+    margin-bottom:48px;
   }
-  .avatar::after{
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:20px;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,0.18);
+  .avatar{
+    width:84px; height:84px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--green), var(--green-dark));
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px; font-weight:700;
+    flex-shrink:0;
   }
-
-  .profile-body{ min-width:0; }
-
-  .profile-name-row{
+  .profile-main{
     display:flex;
-    align-items:baseline;
-    gap:10px;
     flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
   }
-  .profile-name-row h1{
-    font-size:clamp(1.5rem, 4vw, 1.9rem);
+  .profile-text h1{
+    margin:0 0 6px;
+    font-size:24px;
     font-weight:700;
-    line-height:1.3;
+    color:var(--green-dark);
   }
-  .profile-name-row .cursor{
-    display:inline-block;
-    width:0.45ch;
-    background:var(--leaf);
-    margin-left:2px;
-    animation:blink 1.1s steps(1) infinite;
-    align-self:center;
-    height:1.1em;
-  }
-  @keyframes blink{ 50%{ opacity:0; } }
-
-  .username{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.85rem;
-    color:var(--moss);
-  }
-
-  .profile-bio{
-    margin-top:12px;
-    max-width:52ch;
-    font-size:0.96rem;
+  .profile-text .role{
+    margin:0 0 10px;
+    font-size:13.5px;
     color:var(--ink-soft);
   }
-
-  .profile-langs{
-    margin-top:18px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
+  .profile-text .bio{
+    margin:0;
+    font-size:14px;
+    color:var(--ink-soft);
+    max-width:48ch;
   }
-  .tag{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.74rem;
-    padding:6px 12px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    color:var(--forest);
-    background:var(--paper-warm);
-  }
-
-  @media(max-width:520px){
-    .profile-card{ flex-direction:column; align-items:flex-start; gap:18px; }
-  }
-
-  /* ---------- SECTION HEADER ---------- */
-  .section{ padding:64px 0; position:relative; }
-  .section-head{ margin-bottom:40px; }
-  .section-head .eyebrow{ margin-bottom:10px; }
-  .section-head h2{ font-size:1.7rem; font-weight:600; }
-
-  /* ---------- VINE + PROJECTS ---------- */
-  .vine-area{ position:relative; }
-  .vine-svg{
-    position:absolute;
-    left:14px;
-    top:6px;
-    bottom:6px;
-    width:28px;
-    height:calc(100% - 12px);
-  }
-  .vine-path{
-    fill:none;
-    stroke:var(--moss);
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-dasharray:1400;
-    stroke-dashoffset:1400;
-    animation:grow 2.4s ease forwards;
-    animation-delay:.2s;
-  }
-  @keyframes grow{ to{ stroke-dashoffset:0; } }
-
-  .project-list{
+  .profile-tags{
     display:flex;
     flex-direction:column;
-    gap:22px;
-    padding-left:56px;
+    gap:8px;
+    align-items:flex-end;
   }
-
-  .project{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:26px 28px;
-    position:relative;
-    opacity:0;
-    transform:translateY(14px);
-    animation:rise .6s ease forwards;
-  }
-  .project:nth-child(1){ animation-delay:.5s; }
-  .project:nth-child(2){ animation-delay:.8s; }
-  .project:nth-child(3){ animation-delay:1.1s; }
-  .project:nth-child(4){ animation-delay:1.4s; }
-  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
-
-  .project::before{
-    content:'';
-    position:absolute;
-    left:-49px;
-    top:32px;
-    width:11px; height:11px;
-    border-radius:50%;
-    background:var(--leaf);
-    border:3px solid var(--paper);
-    box-shadow:0 0 0 1px var(--moss);
-  }
-
-  .project-top{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:12px;
-    flex-wrap:wrap;
-  }
-  .project h3{ font-size:1.15rem; font-weight:600; }
-  .project .status{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.7rem;
-    color:var(--moss);
+  .profile-tags span{
+    font-size:12px;
+    color:var(--green);
+    background:var(--green-light);
+    padding:4px 10px;
+    border-radius:4px;
     white-space:nowrap;
   }
-  .project p{
-    margin-top:10px;
-    color:var(--ink-soft);
-    font-size:0.94rem;
-    max-width:60ch;
-  }
-  .project .stack{
-    margin-top:16px;
+
+  /* ---------- section shell ---------- */
+  section{ margin-bottom:52px; }
+  .section-title{
     display:flex;
-    flex-wrap:wrap;
-    gap:8px;
+    align-items:center;
+    gap:10px;
+    margin:0 0 20px;
+    font-size:16px;
+    font-weight:700;
+    color:var(--green-dark);
   }
-  .stack span{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.7rem;
-    padding:4px 10px;
-    background:var(--paper-warm);
-    border-radius:6px;
-    color:var(--forest);
+  .section-title::before{
+    content:"";
+    width:4px; height:16px;
+    background:var(--green);
+    border-radius:2px;
+    display:inline-block;
   }
 
-  /* ---------- SKILLS ---------- */
-  .skill-groups{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-    gap:24px;
+  /* ---------- language list ---------- */
+  .lang-category{ margin-bottom:20px; }
+  .lang-category:last-child{ margin-bottom:0; }
+  .lang-cat-head{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+    margin:0 0 10px 4px;
   }
-  .skill-card{
+  .lang-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .lang-chip{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--surface);
     border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:20px 22px;
-    background:var(--card);
+    border-radius:10px;
+    padding:10px 18px;
+    font-size:14.5px;
+    font-weight:500;
+    color:var(--ink);
   }
-  .skill-card h4{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.78rem;
-    color:var(--moss);
-    text-transform:uppercase;
-    letter-spacing:.08em;
+  .lang-chip i{
+    font-size:20px;
+  }
+
+  /* ---------- projects ---------- */
+  .status-group{ margin-bottom:28px; }
+  .status-group:last-child{ margin-bottom:0; }
+  .status-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:700;
     margin-bottom:12px;
   }
-  .skill-card ul{ list-style:none; }
-  .skill-card li{
-    font-size:0.92rem;
+  .status-dot{
+    width:8px; height:8px;
+    border-radius:50%;
+  }
+  .status-group.done .status-dot{ background:var(--status-done); }
+  .status-group.wip .status-dot{ background:var(--status-wip); }
+  .status-group.plan .status-dot{ background:var(--status-plan); }
+  .status-group.done .status-head{ color:var(--status-done); }
+  .status-group.wip .status-head{ color:var(--status-wip); }
+  .status-group.plan .status-head{ color:var(--status-plan); }
+
+  .proj-list{ display:flex; flex-direction:column; gap:10px; }
+  .proj-item{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:3px solid var(--line);
+    border-radius:8px;
+    padding:16px 20px;
+  }
+  .status-group.done .proj-item{ border-left-color:var(--status-done); }
+  .status-group.wip .proj-item{ border-left-color:var(--status-wip); }
+  .status-group.plan .proj-item{ border-left-color:var(--status-plan); }
+  .proj-item h3{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
     color:var(--ink);
-    padding:5px 0;
-    border-bottom:1px dashed var(--line);
   }
-  .skill-card li:last-child{ border-bottom:none; }
-
-  /* ---------- FOOTER / CONTACT ---------- */
-  footer{
-    padding:56px 0 64px;
-    border-top:1px solid var(--line);
-    margin-top:40px;
+  .proj-item p{
+    margin:0 0 10px;
+    font-size:13.5px;
+    color:var(--ink-soft);
   }
-  footer .eyebrow{ margin-bottom:14px; }
-  footer h2{ font-size:1.5rem; margin-bottom:14px; }
-  footer p{ color:var(--ink-soft); max-width:50ch; margin-bottom:22px; }
+  .proj-item .tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .proj-item .tags span{
+    font-size:11px;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:2px 8px;
+  }
 
+  /* ---------- contact ---------- */
+  .contact-box{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:28px 32px;
+  }
+  .contact-box .lead{
+    margin:0 0 20px;
+    font-size:14px;
+    color:var(--ink-soft);
+    max-width:56ch;
+  }
   .contact-links{
-    display:flex;
-    gap:16px;
-    flex-wrap:wrap;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
   }
   .contact-links a{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.85rem;
-    padding:10px 18px;
-    border:1px solid var(--forest);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    border:1px solid var(--line);
     border-radius:8px;
-    color:var(--forest);
-    transition:background .2s, color .2s;
+    text-decoration:none;
+    font-size:13.5px;
+    transition:border-color 0.15s ease, background 0.15s ease;
   }
-  .contact-links a:hover{
-    background:var(--forest);
-    color:var(--paper);
+  .contact-links a:hover{ border-color:var(--green); background:var(--green-light); }
+  .contact-links .ic{
+    width:30px; height:30px;
+    border-radius:6px;
+    background:var(--green-light);
+    color:var(--green-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .contact-links .k{ display:block; font-size:11px; color:var(--ink-soft); }
+  .contact-links .v{ display:block; color:var(--ink); }
+
+  footer{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding-top:12px;
   }
 
-  .foot-note{
-    margin-top:36px;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.72rem;
-    color:var(--moss);
-  }
-
-  @media(max-width:640px){
-    .project-list{ padding-left:44px; }
-    .vine-svg{ left:6px; width:22px; }
-    .project::before{ left:-40px; }
+  @media (max-width: 640px){
+    .profile-card{ grid-template-columns:1fr; text-align:center; }
+    .profile-main{ flex-direction:column; align-items:center; }
+    .profile-tags{ align-items:center; }
+    .lang-row .lname{ width:auto; }
+    .contact-links{ grid-template-columns:1fr; }
   }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<header>
-  <div class="nav">
-    <div class="brand"><span class="dot"></span>yunose.dev</div>
-    <nav class="navlinks">
-      <a href="#about">概要</a>
-      <a href="#projects">プロジェクト</a>
-      <a href="#skills">スキル</a>
-      <a href="#contact">連絡</a>
-    </nav>
-  </div>
-</header>
-
-<section class="hero wrap" id="about">
-  <span class="eyebrow">// personal site</span>
-
+  <!-- Profile Card (horizontal) -->
   <div class="profile-card">
-    <img src="20260329_093246.jpg" class="avatar"></>
-    <div class="profile-body">
-      <div class="profile-name-row">
-        <h1>ゆのせ</h1>
-        <span class="username">@yunose_vola</span>
+    <div class="avatar">Y</div>
+    <div class="profile-main">
+      <div class="profile-text">
+        <h1>ゆのせ
+        </h1>
+        <p class="role">Software Engineer / Solo Developer</p>
+        <p class="bio">
+          フルスタックエンジニア。個人開発中心です。
+          <br>
+          フルスタックではありますが、<b>フロントエンド</b>が一番得意です。
+        </p>
       </div>
-      <p class="profile-bio">
-        Minecraft のMod開発から、10代向けの学習プラットフォームまで。
-        仕事としてではなく、興味を起点に一つずつ形にしている個人開発者です。
+      <div class="profile-tags">
+        <span>Full Stack</span>
+        <span>Solo Dev</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 使える言語 -->
+  <section>
+    <h2 class="section-title">使える言語</h2>
+
+    <div class="lang-category">
+      <p class="lang-cat-head">フロントエンド</p>
+      <div class="lang-chips">
+        <div class="lang-chip"><i class="devicon-html5-plain colored"></i>HTML</div>
+        <div class="lang-chip"><i class="devicon-css3-plain colored"></i>CSS</div>
+        <div class="lang-chip"><i class="devicon-javascript-plain colored"></i>JavaScript</div>
+      </div>
+
+    </div>
+
+    <div class="lang-category">
+      <p class="lang-cat-head">バックエンド</p>
+      <div class="lang-chips">
+        <div class="lang-chip"><i class="devicon-python-plain colored"></i>Python</div>
+        <div class="lang-chip"><i class="devicon-java-plain colored"></i>Java</div>
+        <div class="lang-chip"><i class="devicon-csharp-plain"></i>C#</div>
+        <div class="lang-chip"><i class="devicon-lua-plain colored"></i>Lua</div>
+      </div>
+    </div>
+
+    <div class="lang-category">
+      <p class="lang-cat-head">使用ツール</p>
+      <div class="lang-chips">
+        <div class="lang-chip"><i class="devicon-github-original colored"></i>GitHub</div>
+        <div class="lang-chip"><i class="devicon-intellij-plain"></i>Intellij</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- プロジェクト -->
+  <section>
+    <h2 class="section-title">プロジェクト</h2>
+
+    <div class="status-group done">
+      <div class="status-head"><span class="status-dot"></span>公開済み</div>
+      <div class="proj-list">
+        <div class="proj-item">
+          <h3>個人ポートフォリオ</h3>
+          <p>自己紹介・作品紹介のための個人サイト。単一HTMLでの軽量な構成にこだわっています。</p>
+          <div class="tags"><span>HTML / CSS</span><span>Design</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-group wip">
+      <div class="status-head"><span class="status-dot"></span>開発中</div>
+      <div class="proj-list">
+        <div class="proj-item">
+          <h3>オシエール</h3>
+          <p>10〜18歳を対象とした、ピア学習型の学習プラットフォーム。年齢に応じた通話制限やモデレーション機能まで含めて設計しています。</p>
+          <div class="tags"><span>FastAPI</span><span>Vue3 + TS</span><span>モノレポ構成</span></div>
+        </div>
+        <div class="proj-item">
+          <h3>Minecraft Fabric Mod</h3>
+          <p>Java 学習を兼ねた Minecraft Mod 開発。アイテム・レジストリ周りの実装を通じて学んでいます。</p>
+          <div class="tags"><span>Java</span><span>Fabric API</span><span>1.21.5</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-group plan">
+      <div class="status-head"><span class="status-dot"></span>予定</div>
+      <div class="proj-list">
+        <div class="proj-item">
+          <h3>なし</h3>
+          <p>なし</p>
+          <div class="tags"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 連絡先 -->
+  <section>
+    <h2 class="section-title">連絡先</h2>
+    <div class="contact-box">
+      <p class="lead">
+        お仕事のご相談やご質問など、お気軽にご連絡ください。下記のいずれかからどうぞ。
       </p>
-      <div class="profile-langs">
-        <span class="tag">Java</span>
-        <span class="tag">Python</span>
-        <span class="tag">TypeScript</span>
-        <span class="tag">HTML,CSS</span>
-        <span class="tag">JavaScript</span>
+      <div class="contact-links">
+        <a href="https://github.com/reaktmate"><span class="ic">GH</span><span><span class="k">GitHub</span><span class="v">github.com/reaktmate</span></span></a>
+        <a href="https://x.com/YunoseVola_"><span class="ic">X</span><span><span class="k">X (Twitter)</span><span class="v">@YunoseVola_</span></span></a>
+        <a href="#"><span class="ic">@</span><span><span class="k">Email</span><span class="v">yunosebora@gmail.com</span></span></a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section vine-area" id="projects">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">// projects</span>
-      <h2>作っているもの</h2>
-    </div>
-
-    <div style="position:relative;">
-      <svg class="vine-svg" viewBox="0 0 28 900" preserveAspectRatio="none">
-        <path class="vine-path" d="M14 0 C 4 100, 24 200, 14 300 S 4 500, 14 600 S 24 800, 14 900" />
-      </svg>
-
-      <div class="project-list">
-
-        <article class="project">
-          <div class="project-top">
-            <h3>オシエール</h3>
-            <span class="status">開発中 — 設計フェーズ</span>
-          </div>
-          <p>
-            10〜18歳を対象にした、生徒同士で教え合うピアラーニングの学習プラットフォーム。
-            年齢や学齢に応じて音声・映像機能を制限し、安全確認の記録をすべて監査ログとして残す設計にしています。
-          </p>
-          <div class="stack">
-            <span>FastAPI</span><span>Vue3</span><span>TypeScript</span><span>モノレポ構成</span>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project-top">
-            <h3>Fabric Mod 開発</h3>
-            <span class="status">学習中</span>
-          </div>
-          <p>
-            Java 未経験からスタートした Minecraft Fabric 向け Mod 開発。
-            アイテム登録の仕組みやレジストリまわりを一つずつ理解しながら、実際に動くMODを目指しています。
-          </p>
-          <div class="stack">
-            <span>Java</span><span>Fabric API</span>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project-top">
-            <h3>サウンドデータパック</h3>
-            <span class="status">公開済み</span>
-          </div>
-          <p>
-            小麦の種を植えるたびに、特定の効果音が連続で鳴るMinecraft用データパック。
-            スコアボードと実績システムを組み合わせて音の再生を制御しています。
-          </p>
-          <div class="stack">
-            <span>Minecraft 1.21.8</span><span>Datapack</span><span>Scoreboard</span>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project-top">
-            <h3>個人用マイクロブログ</h3>
-            <span class="status">個人利用中</span>
-          </div>
-          <p>
-            自分専用の思考記録ツール。文字数制限のないタイムライン形式で、
-            ローカルストレージだけで完結するシンプルな作りにしています。
-          </p>
-          <div class="stack">
-            <span>ローカルストレージ</span><span>個人利用</span>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="skills">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">// stack</span>
-      <h2>使っている技術</h2>
-    </div>
-    <div class="skill-groups">
-      <div class="skill-card">
-        <h4>Backend</h4>
-        <ul>
-          <li>FastAPI</li>
-          <li>Python</li>
-        </ul>
-      </div>
-      <div class="skill-card">
-        <h4>Frontend</h4>
-        <ul>
-          <li>Vue 3</li>
-          <li>TypeScript</li>
-        </ul>
-      </div>
-      <div class="skill-card">
-        <h4>Game / Mod</h4>
-        <ul>
-          <li>Java</li>
-          <li>Fabric API</li>
-          <li>Minecraft Datapack</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="wrap" id="contact">
-  <span class="eyebrow">// contact</span>
-  <h2>連絡先</h2>
-  <p>気になったプロジェクトがあれば、お気軽にどうぞ。リンク先は下から編集できます。</p>
-  <div class="contact-links">
-    <a href="https://github.com/reaktmate" id="link-github">GitHub</a>
-    <a href="https://x.com/YunoseVola_" id="link-x">X (Twitter)</a>
-    <a href="mailto:yunosebora@gmail.com">Email</a>
-  </div>
-  <p class="foot-note">© 2026 ゆのせ — built solo, one commit at a time.</p>
-</footer>
-
+  <footer>© 2026 ゆのせ</footer>
+</div>
 </body>
 </html>
