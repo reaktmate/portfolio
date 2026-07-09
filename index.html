@@ -3,381 +3,617 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ゆーすけ — Profile</title>
+<title id="doc-title">ゆのせ — Portfolio</title>
+<meta id="doc-desc" name="description" content="ゆのせ / Software Engineer / Solo Developer のポートフォリオサイト">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F5F8F4;
-    --surface:#FFFFFF;
-    --ink:#20281F;
-    --ink-soft:#5D6B58;
-    --green:#2F6B44;
-    --green-dark:#1F4B30;
-    --green-light:#E6F0E3;
-    --line:#DCE6D8;
-    --status-done:#2F6B44;
-    --status-wip:#B5892A;
-    --status-plan:#7C8578;
+    --bg-0:#0b0e17;
+    --bg-1:#121627;
+    --accent:#7dd8ff;
+    --accent-2:#b487ff;
+    --accent-3:#7dffc4;
+    --text-0:#f2f4fb;
+    --text-1:#c3c9dc;
+    --text-2:#8991ab;
+    --glass-bg:rgba(255,255,255,0.055);
+    --glass-bg-strong:rgba(255,255,255,0.09);
+    --glass-border:rgba(255,255,255,0.14);
+    --shadow: 0 8px 32px rgba(0,0,0,0.35);
+    --radius:20px;
   }
-  *{ box-sizing:border-box; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
   body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Noto Sans JP', sans-serif;
-    line-height:1.75;
+    font-family:'Noto Sans JP','Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg-0);
+    color:var(--text-0);
+    min-height:100vh;
+    overflow-x:hidden;
+    line-height:1.7;
   }
-  .wrap{ max-width:920px; margin:0 auto; padding:48px 24px 80px; }
 
-  a{ color:inherit; }
-  :focus-visible{ outline:2px solid var(--green); outline-offset:2px; }
+  /* Background ambience */
+  .bg-orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(90px);
+    z-index:0;
+    pointer-events:none;
+    opacity:0.55;
+  }
+  .orb-1{ width:520px; height:520px; background:radial-gradient(circle,var(--accent) 0%, transparent 70%); top:-180px; left:-120px; animation:float1 22s ease-in-out infinite; }
+  .orb-2{ width:600px; height:600px; background:radial-gradient(circle,var(--accent-2) 0%, transparent 70%); bottom:-220px; right:-160px; animation:float2 26s ease-in-out infinite; }
+  .orb-3{ width:380px; height:380px; background:radial-gradient(circle,var(--accent-3) 0%, transparent 70%); top:40%; left:45%; animation:float3 30s ease-in-out infinite; opacity:0.35; }
 
-  /* ---------- profile card (wide) ---------- */
-  .profile-card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:32px 36px;
-    display:grid;
-    grid-template-columns:auto 1fr;
-    gap:28px;
-    align-items:center;
-    margin-bottom:48px;
+  @keyframes float1{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(60px,40px);} }
+  @keyframes float2{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(-50px,-30px);} }
+  @keyframes float3{ 0%,100%{ transform:translate(0,0);} 50%{ transform:translate(-30px,50px);} }
+
+  .noise{
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* Glass utility */
+  .glass{
+    background:var(--glass-bg);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  /* NAV */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; justify-content:center;
+    padding:18px 24px;
+  }
+  nav{
+    width:100%; max-width:960px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 16px 12px 22px;
+    gap:14px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.05rem;
+    letter-spacing:0.5px;
+    flex-shrink:0;
+  }
+  .logo-mark{
+    width:34px; height:34px; border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex; align-items:center; justify-content:center;
+    color:#0b0e17; font-weight:900; font-size:1.1rem;
+    flex-shrink:0;
+  }
+  .nav-links{ display:flex; gap:26px; font-size:0.9rem; color:var(--text-1); }
+  .nav-links a{ transition:color .2s ease; position:relative; white-space:nowrap; }
+  .nav-links a:hover{ color:var(--text-0); }
+
+  .nav-right{ display:flex; align-items:center; gap:14px; }
+
+  /* Lang switch */
+  .lang-switch{
+    position:relative;
+    display:flex; align-items:center;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:999px;
+    padding:3px;
+    font-size:0.76rem; font-weight:700; letter-spacing:0.03em;
+    flex-shrink:0;
+  }
+  .lang-switch button{
+    position:relative; z-index:2;
+    border:none; background:transparent; cursor:pointer;
+    padding:6px 13px; border-radius:999px;
+    color:var(--text-2);
+    font:inherit;
+    transition:color .25s ease;
+  }
+  .lang-switch button.active{ color:#0b0e17; }
+  .lang-switch .pill{
+    position:absolute; top:3px; bottom:3px; left:3px;
+    width:calc(50% - 3px);
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-3));
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    z-index:1;
+  }
+  .lang-switch[data-lang="en"] .pill{ transform:translateX(100%); }
+
+  @media (max-width:640px){
+    .nav-links{ gap:14px; font-size:0.78rem; }
+  }
+  @media (max-width:520px){
+    .nav-links{ display:none; }
+  }
+
+  /* SECTIONS */
+  section{
+    position:relative; z-index:2;
+    max-width:960px; margin:0 auto;
+    padding:120px 24px 40px;
+  }
+  #home{ padding-top:160px; padding-bottom:80px; }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--accent); font-weight:500;
+    padding:6px 14px; border-radius:999px;
+    margin-bottom:20px;
+  }
+  .eyebrow::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--accent-3); box-shadow:0 0 10px var(--accent-3);
+  }
+
+  /* HERO */
+  .hero-grid{
+    display:flex; align-items:center; gap:40px; flex-wrap:wrap;
   }
   .avatar{
-    width:84px; height:84px;
-    border-radius:50%;
-    background:linear-gradient(135deg, var(--green), var(--green-dark));
-    color:#fff;
+    width:120px; height:120px; border-radius:32px; flex-shrink:0;
+    background:linear-gradient(150deg,var(--accent),var(--accent-2) 60%,var(--accent-3));
     display:flex; align-items:center; justify-content:center;
-    font-size:32px; font-weight:700;
-    flex-shrink:0;
+    font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:3rem; color:#0b0e17;
+    box-shadow:0 12px 40px rgba(125,216,255,0.25);
   }
-  .profile-main{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    align-items:center;
+  .hero-text h1{
+    font-size:clamp(2.2rem,5vw,3.4rem);
+    font-weight:900; letter-spacing:-0.01em;
+    background:linear-gradient(120deg,#ffffff 30%,var(--accent) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:10px;
+  }
+  .hero-text .role{
+    font-size:1.05rem; color:var(--text-1); font-weight:500; margin-bottom:16px;
+  }
+  .hero-text p.desc{
+    color:var(--text-1); max-width:560px; font-size:0.98rem;
+  }
+  .hero-text p.desc strong{ color:var(--text-0); font-weight:700; }
+
+  .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; }
+  .badge{
+    font-size:0.8rem; padding:8px 16px; border-radius:999px;
+    color:var(--text-1); font-weight:500;
+  }
+  .badge.accent{ color:var(--accent); }
+
+  /* SECTION HEADS */
+  h2.section-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.7rem; font-weight:700; margin-bottom:8px; color:var(--text-0);
+  }
+  .section-sub{ color:var(--text-2); font-size:0.92rem; margin-bottom:36px; }
+
+  /* SKILLS */
+  .skills-wrap{ display:flex; flex-direction:column; gap:22px; }
+  .skill-group{ padding:24px 26px 26px; }
+  .skill-group-head{
+    display:flex; align-items:center; gap:10px; margin-bottom:20px;
+  }
+  .skill-group-head .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent-2); box-shadow:0 0 8px var(--accent-2);
+  }
+  .skill-group h3{
+    font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--accent-2); font-weight:700;
+  }
+  .skill-chip-row{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+    gap:14px;
+  }
+  .skill-chip{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    padding:16px 8px 14px;
+    border-radius:16px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    text-align:center;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .skill-chip:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.07);
+  }
+  .skill-icon{
+    width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:800; font-size:0.82rem; color:#fff;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.15);
+  }
+  .skill-name{ font-size:0.74rem; color:var(--text-1); font-weight:500; }
+  .skill-chip.is-new::after{
+    content:'NEW';
+    position:absolute; top:-7px; right:-6px;
+    font-size:0.55rem; font-weight:800; letter-spacing:0.04em;
+    background:linear-gradient(135deg,var(--accent-3),var(--accent));
+    color:#04231b;
+    padding:2px 6px; border-radius:6px;
+    box-shadow:0 4px 10px rgba(125,255,196,0.35);
+  }
+
+  /* icon backgrounds */
+  .ic-html{ background:linear-gradient(135deg,#ff8a50,#e34f26); }
+  .ic-css{ background:linear-gradient(135deg,#4d9bff,#264de4); }
+  .ic-js{ background:linear-gradient(135deg,#f7df1e,#e8c400); color:#2b2200 !important; }
+  .ic-py{ background:linear-gradient(135deg,#4b8bbe,#ffd43b); }
+  .ic-java{ background:linear-gradient(135deg,#ff9e2c,#e0631a); }
+  .ic-cs{ background:linear-gradient(135deg,#a566d6,#68217a); }
+  .ic-lua{ background:linear-gradient(135deg,#3b3d9e,#000080); }
+  .ic-rbx{ background:linear-gradient(135deg,#4a4a4a,#0f0f0f); }
+  .ic-gh{ background:linear-gradient(135deg,#3a3f4b,#181b21); }
+  .ic-ij{ background:linear-gradient(135deg,#fe315d,#f97a12); }
+
+  .skill-icon svg{ width:22px; height:22px; }
+
+  /* PROJECTS */
+  .projects-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:20px;
   }
-  .profile-text h1{
-    margin:0 0 6px;
-    font-size:24px;
-    font-weight:700;
-    color:var(--green-dark);
+  .project-card{
+    padding:26px; display:flex; flex-direction:column; gap:14px;
+    transition:transform .25s ease, border-color .25s ease;
   }
-  .profile-text .role{
-    margin:0 0 10px;
-    font-size:13.5px;
-    color:var(--ink-soft);
+  .project-card:hover{ transform:translateY(-4px); border-color:rgba(125,216,255,0.35); }
+  .project-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .project-title{ font-size:1.1rem; font-weight:700; color:var(--text-0); }
+  .status{
+    font-size:0.7rem; font-weight:700; padding:4px 10px; border-radius:999px;
+    white-space:nowrap; letter-spacing:0.03em;
   }
-  .profile-text .bio{
-    margin:0;
-    font-size:14px;
-    color:var(--ink-soft);
-    max-width:48ch;
-  }
-  .profile-tags{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    align-items:flex-end;
-  }
-  .profile-tags span{
-    font-size:12px;
-    color:var(--green);
-    background:var(--green-light);
-    padding:4px 10px;
-    border-radius:4px;
-    white-space:nowrap;
+  .status.live{ background:rgba(125,255,196,0.15); color:var(--accent-3); }
+  .status.wip{ background:rgba(180,135,255,0.18); color:var(--accent-2); }
+  .status.planned{ background:rgba(255,255,255,0.08); color:var(--text-2); }
+  .project-desc{ color:var(--text-1); font-size:0.9rem; flex-grow:1; }
+  .project-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .project-tags span{
+    font-size:0.72rem; padding:4px 10px; border-radius:8px;
+    background:rgba(255,255,255,0.05); color:var(--text-2);
+    border:1px solid rgba(255,255,255,0.08);
   }
 
-  /* ---------- section shell ---------- */
-  section{ margin-bottom:52px; }
-  .section-title{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:0 0 20px;
-    font-size:16px;
-    font-weight:700;
-    color:var(--green-dark);
+  /* CONTACT */
+  .contact-card{ padding:36px; text-align:center; }
+  .contact-card p{ color:var(--text-1); margin-bottom:26px; max-width:480px; margin-left:auto; margin-right:auto; }
+  .contact-links{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  .contact-link{
+    display:flex; align-items:center; gap:10px;
+    padding:12px 20px; border-radius:14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    font-size:0.9rem; font-weight:500;
+    transition:all .2s ease;
   }
-  .section-title::before{
-    content:"";
-    width:4px; height:16px;
-    background:var(--green);
-    border-radius:2px;
-    display:inline-block;
+  .contact-link:hover{
+    background:rgba(255,255,255,0.09);
+    border-color:var(--accent);
+    transform:translateY(-2px);
   }
-
-  /* ---------- language list ---------- */
-  .lang-category{ margin-bottom:20px; }
-  .lang-category:last-child{ margin-bottom:0; }
-  .lang-cat-head{
-    font-size:12.5px;
-    font-weight:700;
-    color:var(--ink-soft);
-    letter-spacing:0.04em;
-    margin:0 0 10px 4px;
+  .contact-link .ico{
+    width:20px; height:20px; display:flex; align-items:center; justify-content:center;
   }
-  .lang-chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-  .lang-chip{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:10px 18px;
-    font-size:14.5px;
-    font-weight:500;
-    color:var(--ink);
-  }
-  .lang-chip i{
-    font-size:20px;
-  }
-
-  /* ---------- projects ---------- */
-  .status-group{ margin-bottom:28px; }
-  .status-group:last-child{ margin-bottom:0; }
-  .status-head{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:12px;
-  }
-  .status-dot{
-    width:8px; height:8px;
-    border-radius:50%;
-  }
-  .status-group.done .status-dot{ background:var(--status-done); }
-  .status-group.wip .status-dot{ background:var(--status-wip); }
-  .status-group.plan .status-dot{ background:var(--status-plan); }
-  .status-group.done .status-head{ color:var(--status-done); }
-  .status-group.wip .status-head{ color:var(--status-wip); }
-  .status-group.plan .status-head{ color:var(--status-plan); }
-
-  .proj-list{ display:flex; flex-direction:column; gap:10px; }
-  .proj-item{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-left:3px solid var(--line);
-    border-radius:8px;
-    padding:16px 20px;
-  }
-  .status-group.done .proj-item{ border-left-color:var(--status-done); }
-  .status-group.wip .proj-item{ border-left-color:var(--status-wip); }
-  .status-group.plan .proj-item{ border-left-color:var(--status-plan); }
-  .proj-item h3{
-    margin:0 0 6px;
-    font-size:15px;
-    font-weight:700;
-    color:var(--ink);
-  }
-  .proj-item p{
-    margin:0 0 10px;
-    font-size:13.5px;
-    color:var(--ink-soft);
-  }
-  .proj-item .tags{ display:flex; flex-wrap:wrap; gap:6px; }
-  .proj-item .tags span{
-    font-size:11px;
-    color:var(--ink-soft);
-    border:1px solid var(--line);
-    border-radius:4px;
-    padding:2px 8px;
-  }
-
-  /* ---------- contact ---------- */
-  .contact-box{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:28px 32px;
-  }
-  .contact-box .lead{
-    margin:0 0 20px;
-    font-size:14px;
-    color:var(--ink-soft);
-    max-width:56ch;
-  }
-  .contact-links{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:12px;
-  }
-  .contact-links a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 14px;
-    border:1px solid var(--line);
-    border-radius:8px;
-    text-decoration:none;
-    font-size:13.5px;
-    transition:border-color 0.15s ease, background 0.15s ease;
-  }
-  .contact-links a:hover{ border-color:var(--green); background:var(--green-light); }
-  .contact-links .ic{
-    width:30px; height:30px;
-    border-radius:6px;
-    background:var(--green-light);
-    color:var(--green-dark);
-    display:flex; align-items:center; justify-content:center;
-    font-size:13px;
-    font-weight:700;
-    flex-shrink:0;
-  }
-  .contact-links .k{ display:block; font-size:11px; color:var(--ink-soft); }
-  .contact-links .v{ display:block; color:var(--ink); }
 
   footer{
-    text-align:center;
-    font-size:12px;
-    color:var(--ink-soft);
-    padding-top:12px;
+    position:relative; z-index:2;
+    text-align:center; padding:40px 24px 60px;
+    color:var(--text-2); font-size:0.82rem;
   }
 
-  @media (max-width: 640px){
-    .profile-card{ grid-template-columns:1fr; text-align:center; }
-    .profile-main{ flex-direction:column; align-items:center; }
-    .profile-tags{ align-items:center; }
-    .lang-row .lname{ width:auto; }
-    .contact-links{ grid-template-columns:1fr; }
-  }
+  ::selection{ background:var(--accent); color:#0b0e17; }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <!-- Profile Card (horizontal) -->
-  <div class="profile-card">
-    <div class="avatar">Y</div>
-    <div class="profile-main">
-      <div class="profile-text">
-        <h1>ゆのせ
-        </h1>
-        <p class="role">Software Engineer / Solo Developer</p>
-        <p class="bio">
-          フルスタックエンジニア。個人開発中心です。
-          <br>
-          フルスタックではありますが、<b>フロントエンド</b>が一番得意です。
-        </p>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
+<div class="noise"></div>
+
+<header>
+  <nav class="glass">
+    <div class="logo"><span class="logo-mark">Y</span> ゆのせ</div>
+    <div class="nav-links">
+      <a href="#skills" data-i18n="nav_skills">スキル</a>
+      <a href="#projects" data-i18n="nav_projects">プロジェクト</a>
+      <a href="#contact" data-i18n="nav_contact">連絡先</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-switch" id="langSwitch" data-lang="ja">
+        <span class="pill"></span>
+        <button type="button" data-set-lang="ja" class="active">JA</button>
+        <button type="button" data-set-lang="en">EN</button>
       </div>
-      <div class="profile-tags">
-        <span>Full Stack</span>
-        <span>Solo Dev</span>
+    </div>
+  </nav>
+</header>
+
+<section id="home">
+  <div class="eyebrow glass" style="padding:6px 14px;" data-i18n="eyebrow">対応可能</div>
+  <div class="hero-grid">
+    <div class="avatar">Y</div>
+    <div class="hero-text">
+      <h1>ゆのせ</h1>
+      <div class="role">Software Engineer / Solo Developer</div>
+      <p class="desc" data-i18n="hero_desc">
+        フルスタックエンジニアとして個人開発を中心に活動しています。<br>
+        フルスタックの中でも <strong>フロントエンド</strong> が一番得意です。
+      </p>
+      <div class="badges">
+        <div class="badge glass accent">Full Stack Solo Dev</div>
+        <div class="badge glass">Frontend First</div>
+        <div class="badge glass" data-i18n="badge_roblox">Roblox / Luau 対応可</div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- 使える言語 -->
-  <section>
-    <h2 class="section-title">使える言語</h2>
+<section id="skills">
+  <h2 class="section-title" data-i18n="skills_title">使える言語・ツール</h2>
+  <p class="section-sub" data-i18n="skills_sub">フロントエンドを軸に、バックエンドからゲーム開発まで幅広く対応します。</p>
 
-    <div class="lang-category">
-      <p class="lang-cat-head">フロントエンド</p>
-      <div class="lang-chips">
-        <div class="lang-chip"><i class="devicon-html5-plain colored"></i>HTML</div>
-        <div class="lang-chip"><i class="devicon-css3-plain colored"></i>CSS</div>
-        <div class="lang-chip"><i class="devicon-javascript-plain colored"></i>JavaScript</div>
-      </div>
+  <div class="skills-wrap">
 
-    </div>
-
-    <div class="lang-category">
-      <p class="lang-cat-head">バックエンド</p>
-      <div class="lang-chips">
-        <div class="lang-chip"><i class="devicon-python-plain colored"></i>Python</div>
-        <div class="lang-chip"><i class="devicon-java-plain colored"></i>Java</div>
-        <div class="lang-chip"><i class="devicon-csharp-plain"></i>C#</div>
-        <div class="lang-chip"><i class="devicon-lua-plain colored"></i>Lua</div>
-      </div>
-    </div>
-
-    <div class="lang-category">
-      <p class="lang-cat-head">使用ツール</p>
-      <div class="lang-chips">
-        <div class="lang-chip"><i class="devicon-github-original colored"></i>GitHub</div>
-        <div class="lang-chip"><i class="devicon-intellij-plain"></i>Intellij</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- プロジェクト -->
-  <section>
-    <h2 class="section-title">プロジェクト</h2>
-
-    <div class="status-group done">
-      <div class="status-head"><span class="status-dot"></span>公開済み</div>
-      <div class="proj-list">
-        <div class="proj-item">
-          <h3>個人ポートフォリオ</h3>
-          <p>自己紹介・作品紹介のための個人サイト。単一HTMLでの軽量な構成にこだわっています。</p>
-          <div class="tags"><span>HTML / CSS</span><span>Design</span></div>
+    <div class="skill-group glass">
+      <div class="skill-group-head"><span class="dot"></span><h3>Frontend</h3></div>
+      <div class="skill-chip-row">
+        <div class="skill-chip">
+          <div class="skill-icon ic-html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 8 5 12 9 16"></polyline><polyline points="15 8 19 12 15 16"></polyline></svg>
+          </div>
+          <div class="skill-name">HTML5</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon ic-css">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16l-1.5 15L12 21l-6.5-2L4 4Z"></path><path d="M8 8h8l-.4 4.2H9"></path></svg>
+          </div>
+          <div class="skill-name">CSS3</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon ic-js">JS</div>
+          <div class="skill-name">JavaScript</div>
         </div>
       </div>
     </div>
 
-    <div class="status-group wip">
-      <div class="status-head"><span class="status-dot"></span>開発中</div>
-      <div class="proj-list">
-        <div class="proj-item">
-          <h3>オシエール</h3>
-          <p>10〜18歳を対象とした、ピア学習型の学習プラットフォーム。年齢に応じた通話制限やモデレーション機能まで含めて設計しています。</p>
-          <div class="tags"><span>FastAPI</span><span>Vue3 + TS</span><span>モノレポ構成</span></div>
+    <div class="skill-group glass">
+      <div class="skill-group-head"><span class="dot"></span><h3>Backend</h3></div>
+      <div class="skill-chip-row">
+        <div class="skill-chip">
+          <div class="skill-icon ic-py">PY</div>
+          <div class="skill-name">Python</div>
         </div>
-        <div class="proj-item">
-          <h3>Minecraft Fabric Mod</h3>
-          <p>Java 学習を兼ねた Minecraft Mod 開発。アイテム・レジストリ周りの実装を通じて学んでいます。</p>
-          <div class="tags"><span>Java</span><span>Fabric API</span><span>1.21.5</span></div>
+        <div class="skill-chip">
+          <div class="skill-icon ic-java">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15c-2 1.5-2 3 2 3.5 4.5.6 8-.3 8-2 0-1-1-1.6-2-2"></path><path d="M9 3c-1 1.5.5 2-.3 3.4C7.8 8 7.8 9.5 9 11"></path><path d="M13 3c-1 1.5.5 2-.3 3.4C11.8 8 11.8 9.5 13 11"></path><path d="M6 12h11c.3 2-1 4-2 4.5H8c-1-.5-2.3-2.5-2-4.5Z"></path></svg>
+          </div>
+          <div class="skill-name">Java</div>
         </div>
-          <div class="proj-item">
-          <h3>RobloxStudio UIジェネレーター</h3>
-          <p>一度挫折したあのジェネレーターをもう一回作ってみようと思います</p>
-          <div class="tags"><span>Lua</span></div>
+        <div class="skill-chip">
+          <div class="skill-icon ic-cs">C#</div>
+          <div class="skill-name">C#</div>
         </div>
       </div>
     </div>
 
-    <div class="status-group plan">
-      <div class="status-head"><span class="status-dot"></span>予定</div>
-      <div class="proj-list">
-        <div class="proj-item">
-          <h3>なし</h3>
-          <p>なし</p>
-          <div class="tags"></div>
+    <div class="skill-group glass">
+      <div class="skill-group-head"><span class="dot"></span><h3>Game Dev</h3></div>
+      <div class="skill-chip-row">
+        <div class="skill-chip">
+          <div class="skill-icon ic-lua">
+            <svg viewBox="0 0 24 24"><path fill="#fff" d="M14.5 3a9 9 0 1 0 6.4 15.3A9.5 9.5 0 0 1 14.5 3Z"></path></svg>
+          </div>
+          <div class="skill-name">Lua</div>
+        </div>
+        <div class="skill-chip is-new">
+          <div class="skill-icon ic-lua">
+            <svg viewBox="0 0 24 24"><path fill="#fff" d="M14.5 3a9 9 0 1 0 6.4 15.3A9.5 9.5 0 0 1 14.5 3Z"></path></svg>
+          </div>
+          <div class="skill-name">Luau</div>
+        </div>
+        <div class="skill-chip is-new">
+          <div class="skill-icon ic-rbx">RBX</div>
+          <div class="skill-name" data-i18n="skill_robloxstudio">Roblox Studio</div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- 連絡先 -->
-  <section>
-    <h2 class="section-title">連絡先</h2>
-    <div class="contact-box">
-      <p class="lead">
-        お仕事のご相談やご質問など、お気軽にご連絡ください。下記のいずれかからどうぞ。
-      </p>
-      <div class="contact-links">
-        <a href="https://github.com/reaktmate"><span class="ic">GH</span><span><span class="k">GitHub</span><span class="v">github.com/reaktmate</span></span></a>
-        <a href="https://x.com/YunoseVola_"><span class="ic">X</span><span><span class="k">X (Twitter)</span><span class="v">@YunoseVola_</span></span></a>
-        <a href="#"><span class="ic">@</span><span><span class="k">Email</span><span class="v">yunosebora@gmail.com</span></span></a>
+    <div class="skill-group glass">
+      <div class="skill-group-head"><span class="dot"></span><h3 data-i18n="tools_label">Tools</h3></div>
+      <div class="skill-chip-row">
+        <div class="skill-chip">
+          <div class="skill-icon ic-gh">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.17.69-3.84-1.5-3.84-1.5-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.65 1.24 3.3.95.1-.73.4-1.24.72-1.53-2.53-.29-5.19-1.27-5.19-5.62 0-1.24.44-2.25 1.16-3.05-.12-.29-.5-1.45.11-3.02 0 0 .95-.31 3.12 1.16a10.7 10.7 0 0 1 5.68 0c2.16-1.47 3.11-1.16 3.11-1.16.62 1.57.23 2.73.11 3.02.72.8 1.16 1.81 1.16 3.05 0 4.36-2.66 5.32-5.2 5.6.41.36.77 1.05.77 2.13 0 1.54-.01 2.78-.01 3.16 0 .3.2.66.79.55A11.53 11.53 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z"/></svg>
+          </div>
+          <div class="skill-name">GitHub</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon ic-ij">IJ</div>
+          <div class="skill-name">IntelliJ IDEA</div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <footer>© 2026 ゆのせ</footer>
-</div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2 class="section-title" data-i18n="projects_title">プロジェクト</h2>
+  <p class="section-sub" data-i18n="projects_sub">公開済み・開発中のものを中心にまとめています。</p>
+  <div class="projects-grid">
+
+    <div class="project-card glass">
+      <div class="project-top">
+        <div class="project-title" data-i18n="p1_title">個人ポートフォリオ</div>
+        <div class="status live" data-i18n="status_live">公開済み</div>
+      </div>
+      <div class="project-desc" data-i18n="p1_desc">自己紹介・作品紹介のための個人サイト。単一HTMLでの軽量な構成にこだわっています。</div>
+      <div class="project-tags"><span>HTML / CSS</span><span data-i18n="tag_design">Design</span></div>
+    </div>
+
+    <div class="project-card glass">
+      <div class="project-top">
+        <div class="project-title">オシエール</div>
+        <div class="status wip" data-i18n="status_wip">開発中</div>
+      </div>
+      <div class="project-desc" data-i18n="p2_desc">10〜18歳を対象とした、ピア学習型の学習プラットフォーム。年齢に応じた通話制限やモデレーション機能まで含めて設計しています。</div>
+      <div class="project-tags"><span>FastAPI</span><span>Vue3 + TS</span><span data-i18n="tag_monorepo">モノレポ構成</span></div>
+    </div>
+
+    <div class="project-card glass">
+      <div class="project-top">
+        <div class="project-title">Minecraft Fabric Mod</div>
+        <div class="status wip" data-i18n="status_wip">開発中</div>
+      </div>
+      <div class="project-desc" data-i18n="p3_desc">Java 学習を兼ねた Minecraft Mod 開発。アイテム・レジストリ周りの実装を通じて学んでいます。</div>
+      <div class="project-tags"><span>Java</span><span>Fabric API</span><span>1.21.5</span></div>
+    </div>
+
+    <div class="project-card glass">
+      <div class="project-top">
+        <div class="project-title" data-i18n="p4_title">RobloxStudio UIジェネレーター</div>
+        <div class="status wip" data-i18n="status_wip">開発中</div>
+      </div>
+      <div class="project-desc" data-i18n="p4_desc">一度挫折したあのジェネレーターをもう一回作ってみようと思います。Luau でのUI自動生成に再挑戦中です。</div>
+      <div class="project-tags"><span>Lua</span><span>Roblox Studio</span></div>
+    </div>
+
+    <div class="project-card glass">
+      <div class="project-top">
+        <div class="project-title" data-i18n="p5_title">なし</div>
+        <div class="status planned" data-i18n="status_planned">予定</div>
+      </div>
+      <div class="project-desc" data-i18n="p5_desc">なし</div>
+      <div class="project-tags"></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="section-title" data-i18n="contact_title">連絡先</h2>
+  <p class="section-sub" data-i18n="contact_sub">お仕事のご相談やご質問など、お気軽にご連絡ください。</p>
+  <div class="contact-card glass">
+    <p data-i18n="contact_p">下記のいずれかからご連絡ください。</p>
+    <div class="contact-links">
+      <a class="contact-link" href="https://github.com/reaktmate" target="_blank" rel="noopener">
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.17.69-3.84-1.5-3.84-1.5-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.65 1.24 3.3.95.1-.73.4-1.24.72-1.53-2.53-.29-5.19-1.27-5.19-5.62 0-1.24.44-2.25 1.16-3.05-.12-.29-.5-1.45.11-3.02 0 0 .95-.31 3.12 1.16a10.7 10.7 0 0 1 5.68 0c2.16-1.47 3.11-1.16 3.11-1.16.62 1.57.23 2.73.11 3.02.72.8 1.16 1.81 1.16 3.05 0 4.36-2.66 5.32-5.2 5.6.41.36.77 1.05.77 2.13 0 1.54-.01 2.78-.01 3.16 0 .3.2.66.79.55A11.53 11.53 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z"/></svg>
+        </span>
+        GitHub — github.com/reaktmate
+      </a>
+      <a class="contact-link" href="https://x.com/YunoseVola_" target="_blank" rel="noopener">
+        <span class="ico">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.6h3.3l-7.2 8.2 8.5 11.2h-6.6l-5.2-6.8-5.9 6.8H1.5l7.7-8.8L1 1.6h6.8l4.7 6.2 6.4-6.2Zm-1.2 17.6h1.8L6.4 3.6H4.5l13.2 15.6Z"/></svg>
+        </span>
+        X — @YunoseVola_
+      </a>
+      <a class="contact-link" href="mailto:yunosebora@gmail.com">
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2 4h20v16H2V4Zm2 2.4V18h16V6.4l-8 6.4-8-6.4Zm.8-.4 7.2 5.76L19.2 6H4.8Z"/></svg>
+        </span>
+        Email — yunosebora@gmail.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 ゆのせ
+</footer>
+
+<script>
+(function(){
+  var translations = {
+    nav_skills:      { ja:'スキル', en:'Skills' },
+    nav_projects:    { ja:'プロジェクト', en:'Projects' },
+    nav_contact:     { ja:'連絡先', en:'Contact' },
+    eyebrow:         { ja:'対応可能', en:'Available for Work' },
+    hero_desc:       { ja:'フルスタックエンジニアとして個人開発を中心に活動しています。<br>フルスタックの中でも <strong>フロントエンド</strong> が一番得意です。',
+                        en:'A full-stack engineer focused on solo / indie development.<br>Of the full stack, <strong>front-end</strong> is what I do best.' },
+    badge_roblox:    { ja:'Roblox / Luau 対応可', en:'Roblox / Luau Ready' },
+    skills_title:    { ja:'使える言語・ツール', en:'Skills &amp; Tools' },
+    skills_sub:      { ja:'フロントエンドを軸に、バックエンドからゲーム開発まで幅広く対応します。', en:'Front-end first, with range across back-end and game development.' },
+    tools_label:     { ja:'Tools', en:'Tools' },
+    skill_robloxstudio:{ ja:'Roblox Studio', en:'Roblox Studio' },
+    projects_title:  { ja:'プロジェクト', en:'Projects' },
+    projects_sub:    { ja:'公開済み・開発中のものを中心にまとめています。', en:'A mix of shipped and in-progress work.' },
+    p1_title:        { ja:'個人ポートフォリオ', en:'Personal Portfolio' },
+    p1_desc:         { ja:'自己紹介・作品紹介のための個人サイト。単一HTMLでの軽量な構成にこだわっています。', en:'This site — a self-intro and project showcase, kept intentionally lightweight as a single HTML file.' },
+    status_live:     { ja:'公開済み', en:'Live' },
+    status_wip:      { ja:'開発中', en:'In Progress' },
+    status_planned:  { ja:'予定', en:'Planned' },
+    tag_design:      { ja:'Design', en:'Design' },
+    p2_desc:         { ja:'10〜18歳を対象とした、ピア学習型の学習プラットフォーム。年齢に応じた通話制限やモデレーション機能まで含めて設計しています。', en:'A peer-learning platform for ages 10–18, designed with age-based call restrictions and moderation built in from the start.' },
+    tag_monorepo:    { ja:'モノレポ構成', en:'Monorepo' },
+    p3_desc:         { ja:'Java 学習を兼ねた Minecraft Mod 開発。アイテム・レジストリ周りの実装を通じて学んでいます。', en:'A Minecraft mod built while learning Java — working through item and registry implementation along the way.' },
+    p4_title:        { ja:'RobloxStudio UIジェネレーター', en:'Roblox Studio UI Generator' },
+    p4_desc:         { ja:'一度挫折したあのジェネレーターをもう一回作ってみようと思います。Luau でのUI自動生成に再挑戦中です。', en:'A second attempt at a generator I shelved once before — back at it, automating UI generation in Luau.' },
+    p5_title:        { ja:'なし', en:'TBD' },
+    p5_desc:         { ja:'なし', en:'Nothing planned yet.' },
+    contact_title:   { ja:'連絡先', en:'Contact' },
+    contact_sub:     { ja:'お仕事のご相談やご質問など、お気軽にご連絡ください。', en:'Feel free to reach out for work inquiries or questions.' },
+    contact_p:       { ja:'下記のいずれかからご連絡ください。', en:'Get in touch through any of the channels below.' }
+  };
+
+  var titles = {
+    ja:'ゆのせ — Portfolio',
+    en:'Yunose — Portfolio'
+  };
+  var descs = {
+    ja:'ゆのせ / Software Engineer / Solo Developer のポートフォリオサイト',
+    en:'Portfolio site of Yunose, Software Engineer / Solo Developer'
+  };
+
+  function applyLang(lang){
+    document.documentElement.lang = lang;
+    document.getElementById('doc-title').textContent = titles[lang];
+    document.getElementById('doc-desc').setAttribute('content', descs[lang]);
+
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if (translations[key]) el.innerHTML = translations[key][lang];
+    });
+
+    var sw = document.getElementById('langSwitch');
+    sw.setAttribute('data-lang', lang);
+    sw.querySelectorAll('button').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-set-lang') === lang);
+    });
+
+    try{ localStorage.setItem('portfolio-lang', lang); }catch(e){}
+  }
+
+  document.getElementById('langSwitch').addEventListener('click', function(e){
+    var btn = e.target.closest('[data-set-lang]');
+    if (!btn) return;
+    applyLang(btn.getAttribute('data-set-lang'));
+  });
+
+  var saved = 'ja';
+  try{ saved = localStorage.getItem('portfolio-lang') || 'ja'; }catch(e){}
+  applyLang(saved);
+})();
+</script>
+
 </body>
 </html>
